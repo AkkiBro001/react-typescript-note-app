@@ -27,22 +27,29 @@ function NoteCard() {
         setIsEdit({titleEdit: false, noteEdit: true})
     }
 
-    function submitEdit(event: React.MouseEvent<HTMLFormElement>){
+    function handleSubmitEdit(event: React.MouseEvent<HTMLFormElement | HTMLButtonElement>){
             event.preventDefault()
+    }
+
+    function handleCancleEdit(){
+        setIsEdit({titleEdit: false, noteEdit: false})
     }
 
     useEffect(()=>{
         if(isEdit.titleEdit){
             inputTitleEditRef.current?.focus()
-        }else{
+        }else if(isEdit.noteEdit){
             inputNoteEditRef.current?.focus()
         }
     },[isEdit])
 
+    //Fix Header Color Issue
+    const setColorsForNoteHeader: string = noteColor==="yellow" ? "#facc15" : noteColor==="red" ? "#f87171" : noteColor==="green" ? "#4ade80" : noteColor==="blue" ? "#60a5fa" : noteColor==="cyan" ? "#22d3ee" : "#c084fc"
 
     return (
         <div className="md:w-[300px] xs:w-full overflow-hidden shrink-0 m-2">
-            <header className={`flex p-2 text-primary relative bg-${noteColor}-400`}
+            <header className={`flex p-2 text-primary relative`}
+                style={{backgroundColor: setColorsForNoteHeader}}
                 onClick={() => {
                     if (show) setShow(false);
                 }}
@@ -56,7 +63,7 @@ function NoteCard() {
                         >Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, a.</div>
 
                             : <form className="flex-1"
-                            onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>submitEdit(e)}
+                            onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>handleSubmitEdit(e)}
                             >
                                 <input className="text-xl border-0 outline-none bg-transparent w-full" defaultValue="Title" ref={inputTitleEditRef}/>
                             </form>
@@ -67,7 +74,7 @@ function NoteCard() {
                 </div>
 
 
-                {show && <div className="option absolute top-[42px] left-0">
+                {show && <div className="option absolute top-[42px] md:left-0 xs:right-0">
                     <div className="bg-secondary">
                         <div className="flex">
                             <button className="w-[50px] h-[50px] bg-yellow-200 grid place-content-center text-xl cursor-pointer" tabIndex={0} onClick={() => { handleNoteColor("yellow") }}>{noteColor === "yellow" ? <BsCheck /> : null}</button>
@@ -103,7 +110,7 @@ function NoteCard() {
                 onMouseDown={() => {
                     if (show) setShow(false);
                 }}
-                onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>submitEdit(e)}
+                onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>handleSubmitEdit(e)}
             >
                 <textarea cols="30" rows="10" className={`w-full border-0 outline-none bg-transparent scrollBar ${show ? 'select-none overflow-hidden' : ''}`}
                     defaultValue={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia dicta nisi facilis tempore explicabo doloremque eos nulla ex adipisci asperiores quam nam, sed sequi, quis accusamus voluptates officiis quibusdam!Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia dicta nisi facilis tempore explicabo doloremque eos nulla ex adipisci asperiores quam nam, sed sequi, quis accusamus voluptates officiis quibusdam!Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia dicta nisi facilis tempore explicabo doloremque eos nulla ex adipisci asperiores quam nam, sed sequi, quis accusamus voluptates officiis quibusdam!"}
@@ -112,6 +119,15 @@ function NoteCard() {
                 >
 
                 </textarea>
+
+                {isEdit.titleEdit || isEdit.noteEdit ? <div className="flex items-center justify-end space-x-3">
+                    <button className="bg-red-200 px-2 py-1 rounded-lg hover:opacity-80" style={{backgroundColor: setColorsForNoteHeader}}
+                    onClick={handleSubmitEdit}
+                    >Save</button>
+                    <button className="px-2 py-1 rounded-lg bg-secondary text-light hover:bg-gray-600"
+                    onClick={handleCancleEdit}
+                    >Cancle</button>
+                </div> : null}
             </form>
         </div>
     )

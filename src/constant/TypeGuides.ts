@@ -14,3 +14,4 @@ export interface NoteEditType {
     titleEdit: boolean, 
     noteEdit: boolean
 }
+
