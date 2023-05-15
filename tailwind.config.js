@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line no-undef
+require('tailwindcss/colors')
 export default {
   content: [
     "./index.html",
@@ -29,7 +31,8 @@ export default {
         primary: "#181818",
         secondary: "#1f1f1f",
         light: "#dbdbdb",
-        bdColor: "#2a2a2a"
+        bdColor: "#2a2a2a",
+        
       },
       flex: {
         '2': '2 2 0%'

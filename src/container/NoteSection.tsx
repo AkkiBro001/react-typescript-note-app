@@ -13,19 +13,7 @@ function NoteSection() {
             <NoteCard />
             <NoteCard />
             <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
+            
           </div>
     </section>
     

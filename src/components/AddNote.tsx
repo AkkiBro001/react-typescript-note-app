@@ -1,10 +1,11 @@
 import React, {useRef, useState} from "react";
 import { GiNotebook } from "react-icons/gi"
+import { NoteType, NoteTypeError } from "../constant/TypeGuides";
 
 function AddNote() {
 
-  const [note, setNote] = useState<{title: string, note: string}>({title: "", note: ""})
-  const [error, setError] = useState<{title: string, note: string, titleError: boolean, noteError: boolean}>({title: "Please enter note title details", note: "Please enter note description details", titleError: false, noteError: false})
+  const [note, setNote] = useState<NoteType>({title: "", note: ""})
+  const [error, setError] = useState<NoteTypeError>({title: "Please enter note title details", note: "Please enter note description details", titleError: false, noteError: false})
   const titleInputRef = useRef<HTMLInputElement>(null)
   const noteInputRef = useRef<HTMLTextAreaElement>(null)
 
