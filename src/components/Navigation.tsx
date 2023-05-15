@@ -19,7 +19,7 @@ function Navigation() {
                 <span className="text-yellow-200"><GiNotebook /></span>
                 <span className="text-yellow-300 sm:block xs:hidden">Note App</span>
             </a>
-            <div className="sm:w-1/2 xs:w-full relative">
+            <div className="md:w-2/6 sm:w-1/2 xs:w-full relative">
                 <input type="text" placeholder="search notes" className="w-full py-2 pl-7 pr-7 rounded-md bg-secondary border-0"
                 value= {search}
                 onChange={(e:React.ChangeEvent<HTMLInputElement>)=>handleSerch(e)}
@@ -32,7 +32,7 @@ function Navigation() {
             </div>
             <button className="button flex items-center justify-center md:rounded-full xs:rounded-lg hover:bg-light hover:text-primary nav-btn">
                 <span className="text-lg">+</span>
-                <span className="md:block xs:hidden">Add Note</span>
+                <span className="md:block xs:hidden">Show Add Note</span>
             <span className="text-light md:hidden xs:block ml-1 text-xl sm-icon"><GiNotebook /></span>
             </button>
         </nav>
