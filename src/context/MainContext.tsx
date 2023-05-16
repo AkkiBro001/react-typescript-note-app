@@ -34,7 +34,9 @@ function MainContext({children}: ContextProps){
         
         switch(action.type){
             case Action.loadStorage: return localStorage.getItem("NoteApp") ? JSON.parse(localStorage.getItem("NoteApp") as string) : state;
+            
             case Action.toggleAddNote : return {...state, toggleAddNote: !state.toggleAddNote};
+            
             case Action.saveNote : 
                 // eslint-disable-next-line no-case-declarations
                 const {id, title, note, noteColor} = action.payload as SingleNote
