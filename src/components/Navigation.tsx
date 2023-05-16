@@ -2,10 +2,14 @@ import {useState} from "react"
 import { GiNotebook } from "react-icons/gi"
 import {BsSearch} from "react-icons/bs"
 import {AiOutlineClose} from "react-icons/ai"
+import { useMainContext } from "../context/MainContext"
+import { Action } from "../constant/TypeGuides"
 
 
 function Navigation() {
-    const [search, setSearch] = useState<string>("ss")
+    const [search, setSearch] = useState<string>("")
+    const {state, dispatch} = useMainContext()
+    
 
     function handleSerch(event: React.ChangeEvent<HTMLInputElement>){
         event.preventDefault()
@@ -14,6 +18,7 @@ function Navigation() {
     }
 
     return (
+        
         <nav className="px-5 py-5 border-b-2 border-bdColor flex items-center justify-between sm:space-x-6 xs:space-x-3 bg-primary sticky top-0 z-50">
             <a className="logo font-bold uppercase sm:text-3xl xs:text-4xl flex space-x-2" href="/">
                 <span className="text-yellow-200"><GiNotebook /></span>
@@ -30,9 +35,11 @@ function Navigation() {
                 </button>
                 
             </div>
-            <button className="button flex items-center justify-center md:rounded-full xs:rounded-lg hover:bg-light hover:text-primary nav-btn">
-                <span className="text-lg">+</span>
-                <span className="md:block xs:hidden">Show Add Note</span>
+            <button className="button flex items-center justify-center md:rounded-full xs:rounded-lg hover:bg-light hover:text-primary nav-btn"
+            onClick={()=>dispatch({type: Action.toggleAddNote})}
+            >
+                <span className="text-lg">{`${state.toggleAddNote ? "-" : "+"}`}</span>
+                <span className="md:block xs:hidden">{`${state.toggleAddNote ? "Hide Add Note" : "Show Add Note"}`}</span>
             <span className="text-light md:hidden xs:block ml-1 text-xl sm-icon"><GiNotebook /></span>
             </button>
         </nav>

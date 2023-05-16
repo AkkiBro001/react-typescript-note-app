@@ -1,18 +1,21 @@
 import AddNote from "../components/AddNote"
 import NoteCard from "../components/NoteCard"
+import { useMainContext } from "../context/MainContext"
 
 
 function NoteSection() {
+  const {state} = useMainContext()
+
   return (
     
     <section className="p-8 w-full">
-          <AddNote />
+          {state.toggleAddNote && <AddNote />}
           <div className="flex flex-wrap justify-center">
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
+            {
+              state.noteList.map(note => <NoteCard key={note.id} id={note.id} title={note.title} note={note.note} noteColor={note.noteColor}/>)
+            }
+            
+            
             
           </div>
 
