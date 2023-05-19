@@ -36,9 +36,13 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
     function handleSubmitEdit(id:number, color: string){
             if(isEdit.titleEdit){
                 const title = inputTitleEditRef && inputTitleEditRef.current && inputTitleEditRef.current.value
-                if(!title) return
-                dispatch({type: Action.editTitle, payload: {id, title, color} as noteEdit})
-                setIsEdit({titleEdit: false, noteEdit: false})
+                if(title){
+
+                    dispatch({type: Action.editTitle, payload: {id, title, color} as noteEdit})
+                    setIsEdit({titleEdit: false, noteEdit: false})
+                }else{
+                    setIsEdit({titleEdit: false, noteEdit: false})
+                }
             }else{
                 const note = inputNoteEditRef && inputNoteEditRef.current && inputNoteEditRef.current.value
                 dispatch({type: Action.editNote, payload: {id, note, color} as noteEdit})
@@ -137,7 +141,7 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                 </div>}
             </header>
 
-            <form className={`bg-${color}-200 text-primary p-2 ${show ? 'overlay' : ''}`}
+            <div className={`bg-${color}-200 text-primary p-2 ${show ? 'overlay' : ''}`}
                 onMouseDown={() => {
                     if (show) setShow(false);
                 }}
@@ -159,7 +163,7 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                     onClick={()=>handleCancleEdit(id)}
                     >Cancle</button>
                 </div> : null}
-            </form>
+            </div>
         </div>
     )
 }
