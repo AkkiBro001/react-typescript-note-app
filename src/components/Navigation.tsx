@@ -6,15 +6,24 @@ import { useMainContext } from "../context/MainContext"
 import { Action } from "../constant/TypeGuides"
 
 
+
 function Navigation() {
     const [search, setSearch] = useState<string>("")
     const {state, dispatch} = useMainContext()
     
+    
 
     function handleSerch(event: React.ChangeEvent<HTMLInputElement>){
         event.preventDefault()
-        setSearch(event.target.value); 
+        setSearch(event.target.value);
+        dispatch({type: Action.search, payload: {query: event.target.value}})
         
+        
+    }
+
+    function handleCancelSearch(){
+        setSearch("");
+        dispatch({type: Action.search, payload: {query: ""}})
     }
 
     return (
@@ -27,11 +36,11 @@ function Navigation() {
             <div className="md:w-2/6 sm:w-1/2 xs:w-full relative">
                 <input type="text" placeholder="search notes" className="w-full py-2 pl-7 pr-7 rounded-md bg-secondary border-0"
                 value= {search}
-                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>handleSerch(e)}
+                onChange={(e)=>handleSerch(e)}
                 />
                 <button className="flex w-full cursor-default">
                 <BsSearch className="absolute left-2 top-3 opacity-50 "/> 
-                {search ? <AiOutlineClose className="absolute right-2 top-3 cursor-pointer opacity-50 hover:opacity-100" onClick={()=>setSearch("")}/> : null} 
+                {search ? <AiOutlineClose className="absolute right-2 top-3 cursor-pointer opacity-50 hover:opacity-100" onClick={handleCancelSearch}/> : null} 
                 </button>
                 
             </div>

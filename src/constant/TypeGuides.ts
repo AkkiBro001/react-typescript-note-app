@@ -47,13 +47,21 @@ export enum Action {
     toggleAddNote = "toggleAddNote",
     updateNoteHistory = "updateNoteHistory",
     saveNote = "saveNote",
+    editTitle = "editTitle",
     editNote = "editNote",
+    deletNote = "deleteNote",
     changeColor = "changeColor"
   }
 
 export interface colorChange {id: number, color: string}
 
+export interface notePayload {id: number, title: string, color: string}
+
+export interface noteEdit {id: number, title?: string, note?: string, color:string}
+
+export interface SearchQuery {query: string}
+
 export interface ReducerActionProps {
     type: string,
-    payload?: boolean | SingleNote | colorChange
+    payload?: boolean | SingleNote | colorChange | SearchQuery | notePayload | noteEdit
 }

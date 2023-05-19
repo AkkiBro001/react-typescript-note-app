@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { SlOptions } from "react-icons/sl";
 import { FaRegEdit } from "react-icons/fa"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BsCheck } from "react-icons/bs"
-import { Action, NoteColor, NoteEditType, SingleNote } from "../constant/TypeGuides";
+import { Action, NoteColor, NoteEditType, SingleNote, noteEdit } from "../constant/TypeGuides";
 import { useMainContext } from "../context/MainContext";
 
 function NoteCard({id, title, note, noteColor}: SingleNote) {
@@ -16,7 +16,7 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
     const inputTitleEditRef = useRef<HTMLInputElement>(null)
     const inputNoteEditRef = useRef<HTMLTextAreaElement>(null)
 
-    const {dispatch} = useMainContext()
+    const {state, dispatch} = useMainContext()
 
     function handleNoteColor(colorName: NoteColor, id: number) {
         setColor(colorName)
@@ -26,25 +26,49 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
 
     function handleEditTitle() {
         setIsEdit({titleEdit: true, noteEdit: false})
+        
     }
 
     function handleEditNote() {
         setIsEdit({titleEdit: false, noteEdit: true})
     }
 
-    function handleSubmitEdit(event: React.MouseEvent<HTMLFormElement | HTMLButtonElement>){
-            event.preventDefault()
+    function handleSubmitEdit(id:number, color: string){
+            if(isEdit.titleEdit){
+                const title = inputTitleEditRef && inputTitleEditRef.current && inputTitleEditRef.current.value
+                if(!title) return
+                dispatch({type: Action.editTitle, payload: {id, title, color} as noteEdit})
+                setIsEdit({titleEdit: false, noteEdit: false})
+            }else{
+                const note = inputNoteEditRef && inputNoteEditRef.current && inputNoteEditRef.current.value
+                dispatch({type: Action.editNote, payload: {id, note, color} as noteEdit})
+                setIsEdit({titleEdit: false, noteEdit: false})
+            }
     }
 
-    function handleCancleEdit(){
+    function handleCancleEdit(id:number){
+        const note = state.noteList.find(note => note.id === id) as SingleNote;
+        
+        if(inputTitleEditRef && inputTitleEditRef.current) {
+            inputTitleEditRef.current.value = note.title
+        }else if(inputNoteEditRef && inputNoteEditRef.current){
+            inputNoteEditRef.current.value = note.note
+        }
         setIsEdit({titleEdit: false, noteEdit: false})
+        
+    }
+
+    function handleDeleteNote(id: number, title: string, noteColor: string){
+        dispatch({type: Action.deletNote, payload: {id, title, color: noteColor}})
     }
 
     useEffect(()=>{
         if(isEdit.titleEdit){
             inputTitleEditRef.current?.focus()
+            
         }else if(isEdit.noteEdit){
             inputNoteEditRef.current?.focus()
+            
         }
     },[isEdit])
 
@@ -67,11 +91,11 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                             title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, a."
                         >{title}</div>
 
-                            : <form className="flex-1"
-                            onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>handleSubmitEdit(e)}
+                            : <div className="flex-1"
+                            
                             >
-                                <input className="text-xl border-0 outline-none bg-transparent w-full" defaultValue={note} ref={inputTitleEditRef}/>
-                            </form>
+                                <input className="text-xl border-0 outline-none bg-transparent w-full" defaultValue={title} ref={inputTitleEditRef}/>
+                            </div>
                     }
                     <button className="cursor-pointer" tabIndex={0}
                         onClick={() => setShow(pre => !pre)}
@@ -102,7 +126,9 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                                 <FaRegEdit />
                                 <span>Edit Note</span>
                             </button>
-                            <button className="p-2 text-light w-full text-left flex space-x-2 items-center hover:text-primary hover:bg-light focus:text-primary focus:bg-light">
+                            <button className="p-2 text-light w-full text-left flex space-x-2 items-center hover:text-primary hover:bg-light focus:text-primary focus:bg-light"
+                            onClick={()=>handleDeleteNote(id, title, noteColor)}
+                            >
                                 <RiDeleteBin6Line />
                                 <span>Delete Note</span>
                             </button>
@@ -115,7 +141,7 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                 onMouseDown={() => {
                     if (show) setShow(false);
                 }}
-                onSubmit={(e:React.MouseEvent<HTMLFormElement>)=>handleSubmitEdit(e)}
+               
             >
                 <textarea cols="30" rows="10" className={`w-full border-0 outline-none bg-transparent scrollBar ${show ? 'select-none overflow-hidden' : ''}`}
                     defaultValue={note}
@@ -127,10 +153,10 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
 
                 {isEdit.titleEdit || isEdit.noteEdit ? <div className="flex items-center justify-end space-x-3">
                     <button className="bg-red-200 px-2 py-1 rounded-lg hover:opacity-80" style={{backgroundColor: setColorsForNoteHeader}}
-                    onClick={handleSubmitEdit}
+                    onClick={()=>handleSubmitEdit(id, noteColor)}
                     >Save</button>
                     <button className="px-2 py-1 rounded-lg bg-secondary text-light hover:bg-gray-600"
-                    onClick={handleCancleEdit}
+                    onClick={()=>handleCancleEdit(id)}
                     >Cancle</button>
                 </div> : null}
             </form>

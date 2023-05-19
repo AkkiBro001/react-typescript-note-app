@@ -1,3 +1,4 @@
+
 import {FaHistory} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai"
 import HistoryCard from "./HistoryCard";
@@ -9,6 +10,7 @@ interface Props {
 
 function NoteHistory({setShowHistory}:Props) {
   const {state: {noteHistory}} = useMainContext()
+  
   return (
     <div>
         <header className="p-3 bg-bdColor flex items-center justify-between">
@@ -18,7 +20,7 @@ function NoteHistory({setShowHistory}:Props) {
             />
         </header>
         <section>
-          {noteHistory.map(history => <HistoryCard  key={history.id} {...history}/>).reverse()}
+          {noteHistory.map(history => <HistoryCard  key={history.id * Math.random()} {...history}/>).reverse()}
         </section>
     </div>
   )
