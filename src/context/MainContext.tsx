@@ -127,6 +127,11 @@ function MainContext({ children }: ContextProps) {
 
             }
 
+
+            case Action.clearHistory : 
+            //!Local Storage Update
+            localStorage.setItem("NoteApp",JSON.stringify({...state, noteHistory: []}))
+            return {...state, noteHistory: []}
             // eslint-disable-next-line no-fallthrough
             default: state
         }
