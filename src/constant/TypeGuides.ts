@@ -50,7 +50,8 @@ export enum Action {
     editTitle = "editTitle",
     editNote = "editNote",
     deletNote = "deleteNote",
-    changeColor = "changeColor"
+    changeColor = "changeColor",
+    clearHistory = "clearHistory"
   }
 
 export interface colorChange {id: number, color: string}
