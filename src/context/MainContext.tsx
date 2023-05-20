@@ -83,7 +83,9 @@ function MainContext({ children }: ContextProps) {
             case Action.deletNote:
                 {// eslint-disable-next-line no-case-declarations
                     const { id, title, color } = action.payload as notePayload
-
+                    
+                    
+                    
                     //!Local Storage Update
                     localStorage.setItem("NoteApp", JSON.stringify({ ...state, noteHistory: [...state.noteHistory, { id: id, history: `A note with the title "${title}" was removed.`, noteColor: color, timeStamp: new Date().toLocaleString() }], noteList: state.noteList.filter(note => note.id !== id) }))
 

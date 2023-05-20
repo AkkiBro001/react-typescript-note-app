@@ -147,7 +147,7 @@ function NoteCard({id, title, note, noteColor}: SingleNote) {
                 }}
                
             >
-                <textarea cols="30" rows="10" className={`w-full border-0 outline-none bg-transparent scrollBar ${show ? 'select-none overflow-hidden' : ''}`}
+                <textarea cols={30} rows={10} className={`w-full border-0 outline-none bg-transparent scrollBar ${show ? 'select-none overflow-hidden' : ''}`}
                     defaultValue={note}
                     ref = {inputNoteEditRef}
                     readOnly = {isEdit.noteEdit ? false : true}

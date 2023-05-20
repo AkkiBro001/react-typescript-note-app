@@ -2,6 +2,7 @@ import { SingleHistory } from "../constant/TypeGuides"
 
 
 function HistoryCard({history, timeStamp, noteColor}: SingleHistory) {
+  
   return (
     <>
     <div className={`p-3 bg-${noteColor}-200 text-primary rounded-md m-2`}>

@@ -44,7 +44,7 @@ function AddNote() {
           return {...pre, title: e.target.value}
         })}}
         />
-        <textarea name="note" cols="30" rows="10" className= {`w-full bg-secondary text-lg py-1 px-2 rounded-md ${error.noteError ? 'error' : 'outline-yellow-200 border-0'}`}
+        <textarea name="note" cols={30} rows={10} className= {`w-full bg-secondary text-lg py-1 px-2 rounded-md ${error.noteError ? 'error' : 'outline-yellow-200 border-0'}`}
         placeholder= {`${error.titleError ? error.note : "Add Note Description"}`}
         value={note.note}
         ref={noteInputRef}

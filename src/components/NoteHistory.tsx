@@ -20,6 +20,7 @@ function NoteHistory({setShowHistory}:Props) {
             />
         </header>
         <section>
+          
           {noteHistory.map(history => <HistoryCard  key={history.id * Math.random()} {...history}/>).reverse()}
         </section>
     </div>
