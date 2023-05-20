@@ -1,6 +1,7 @@
 import React, {useRef, useState} from "react";
 import { GiNotebook } from "react-icons/gi"
-import { NoteType, NoteTypeError } from "../constant/TypeGuides";
+import { Action, NoteType, NoteTypeError, SingleNote } from "../constant/TypeGuides";
+import { useMainContext } from "../context/MainContext";
 
 function AddNote() {
 
@@ -9,8 +10,9 @@ function AddNote() {
   const titleInputRef = useRef<HTMLInputElement>(null)
   const noteInputRef = useRef<HTMLTextAreaElement>(null)
 
+  const {dispatch} = useMainContext()
+
   function handleNote(event: React.MouseEvent<HTMLFormElement>){
-    
     event.preventDefault();
     
     if(!note.title){
@@ -21,8 +23,13 @@ function AddNote() {
       setError(pre => ({...pre, noteError: true}))
     }
 
+    if(note.title && note.note){
+      dispatch({type: Action.saveNote, payload:{id: Date.now(), title: note.title, note: note.note, noteColor: "yellow"} as SingleNote})
+      setNote({title: "", note: ""})
+    }
   }
 
+ 
   
 
   return (
@@ -37,7 +44,7 @@ function AddNote() {
           return {...pre, title: e.target.value}
         })}}
         />
-        <textarea name="note" cols="30" rows="10" className= {`w-full bg-secondary text-lg py-1 px-2 rounded-md ${error.noteError ? 'error' : 'outline-yellow-200 border-0'}`}
+        <textarea name="note" cols={30} rows={10} className= {`w-full bg-secondary text-lg py-1 px-2 rounded-md ${error.noteError ? 'error' : 'outline-yellow-200 border-0'}`}
         placeholder= {`${error.titleError ? error.note : "Add Note Description"}`}
         value={note.note}
         ref={noteInputRef}
