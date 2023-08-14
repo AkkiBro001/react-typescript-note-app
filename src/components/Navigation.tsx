@@ -29,7 +29,7 @@ function Navigation() {
     return (
         
         <nav className="px-5 py-5 border-b-2 border-bdColor flex items-center justify-between sm:space-x-6 xs:space-x-3 bg-primary sticky top-0 z-50">
-            <a className="logo font-bold uppercase sm:text-3xl xs:text-4xl flex space-x-2" href="/">
+            <a className="logo font-bold uppercase sm:text-3xl xs:text-4xl flex space-x-2" href="/react-typescript-note-app/">
                 <span className="text-yellow-200"><GiNotebook /></span>
                 <span className="text-yellow-300 sm:block xs:hidden">Note App</span>
             </a>
